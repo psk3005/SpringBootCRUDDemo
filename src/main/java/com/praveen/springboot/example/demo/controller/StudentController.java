@@ -1,15 +1,15 @@
 package com.praveen.springboot.example.demo.controller;
 
+import com.praveen.springboot.example.demo.client.WeatherClient;
 import com.praveen.springboot.example.demo.data.Student;
+import com.praveen.springboot.example.demo.data.Weather;
 import com.praveen.springboot.example.demo.exception.StudentNotFoundException;
 import com.praveen.springboot.example.demo.repository.StudentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.awt.*;
 import java.util.List;
 import java.util.Optional;
 
@@ -18,6 +18,9 @@ public class StudentController {
 
     @Autowired
     private StudentRepository studentRepository;
+
+    @Autowired
+    private WeatherClient weatherClient;
 
 
     @RequestMapping(
@@ -75,5 +78,14 @@ public class StudentController {
         studentRepository.save(student);
         return student;
 
+    }
+
+    @RequestMapping(
+            value = "/Weather",
+            method = RequestMethod.GET,
+            produces = MediaType.APPLICATION_JSON_VALUE
+    )
+    public Weather getWeather(){
+        return weatherClient.getWeather();
     }
 }
